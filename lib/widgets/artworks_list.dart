@@ -84,34 +84,46 @@ class ArtworksList extends StatelessWidget {
       onTap: () => _navToArtworkPage(artwork, context),
       child: Container(
         height: 324,
-        child: Center(
-          child: !isLast
-              ? Container(
-                  decoration: BoxDecoration(
-                      border: Border(
-                    bottom: BorderSide(
-                        width: 1, color: Theme.of(context).accentColor),
-                  )),
-                  child: Card(
-                      margin: EdgeInsets.all(0),
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                              child: _buildArtworkPreviewListTile(
-                                  artwork, context)),
-                        ],
-                      )))
-              : Card(
-                  margin: EdgeInsets.all(0),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(40),
-                          bottomLeft: Radius.circular(40))),
-                  child: Container(
-                    child: _buildArtworkListTile(artwork, context),
+        child: Container(
+            child: Card(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+            bottomRight: Radius.circular(40),
+            bottomLeft: Radius.circular(40),
+          )),
+          margin: EdgeInsets.all(0),
+          child: Column(
+            children: <Widget>[
+              Container(
+                  height: 274,
+                  child: _buildArtworkPreviewListTile(artwork, context)),
+              Container(
+                alignment: Alignment.bottomLeft,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 20, right: 20, bottom: 15),
+                  child: Row(
+                    children: <Widget>[
+                      Text(DateFormat('E').format(artwork.publisheDate)),
+                      SizedBox(
+                        width: 180,
+                      ),
+                      Text(
+                        artwork.publisheDate.toString(),
+                      ),
+                    ],
                   ),
                 ),
-        ),
+                decoration: ShapeDecoration(
+                    color: Colors.grey[400],
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            bottomRight: Radius.circular(40),
+                            bottomLeft: Radius.circular(40)))),
+                height: 50,
+              )
+            ],
+          ),
+        )),
       ),
     );
   }
@@ -151,14 +163,14 @@ class ArtworksList extends StatelessWidget {
 
   Widget _buildArtworkPreviewListTile(Artwork artwork, BuildContext context) {
     return ListTile(
-      leading: IconButton(
+      trailing: IconButton(
         icon: Icon(Icons.favorite_border, color: Theme.of(context).accentColor),
         onPressed: () => {},
       ),
       title: Text(
         artwork.title,
         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        textAlign: TextAlign.end,
+        textAlign: TextAlign.center,
       ),
       subtitle: Column(
         children: <Widget>[
@@ -175,6 +187,7 @@ class ArtworksList extends StatelessWidget {
           ),
         ],
       ),
+      contentPadding: EdgeInsets.all(12),
     );
   }
 

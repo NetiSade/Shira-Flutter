@@ -20,7 +20,6 @@ class DbService {
       snapshot.documents.forEach((f) {
         try {
           list.add(Artwork.fromMap(f.data, f.documentID));
-          print(f.data);
         } catch (e) {}
       });
     });

@@ -22,7 +22,9 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           accentColor: Color.fromRGBO(154, 226, 197, 1)),
       home: HomePage(),
-      routes: {ArtworkPage.routeName: (ctx) => ArtworkPage()},
+      routes: {
+        ArtworkPage.routeName: (ctx) => ArtworkPage(),
+      },
     );
   }
 }
