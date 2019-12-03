@@ -2,17 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../models/artwork.dart';
 
-//TODO: dependency injection
-//TODO: DbService interface
-
 class DbService {
+  final _db = Firestore.instance;
+  final _auth = FirebaseAuth.instance;
+
   bool isLoggedIn() {
-    return FirebaseAuth.instance.currentUser() != null;
+    return _auth.currentUser() != null;
   }
 
   Future<List<Artwork>> get getArtworks async {
     List<Artwork> list = List<Artwork>();
-    await Firestore.instance
+    await _db
         .collection('artworks')
         .orderBy('publisheDate', descending: true)
         .getDocuments()
@@ -27,34 +27,22 @@ class DbService {
     return list;
   }
 
-  // override fun listenToArtworks(handler: (ArrayList<Artwork>) -> Unit) {
-  //       FirebaseFirestore.getInstance().collection(artworksCollectionRef).orderBy("publisheDate", Query.Direction.DESCENDING)
-  //           .addSnapshotListener(EventListener<QuerySnapshot> { querySnapshot, e ->
-  //               if (e != null)
-  //               {
-  //                   Log.w(ContentValues.TAG, "Listen error", e)
-  //                   return@EventListener
-  //               }
+  Future<Artwork> getArtwork(String id) async {
+    var snap = await _db.collection('artworks').document(id).get();
 
-  //               if (querySnapshot != null) {
-  //                   for (document in querySnapshot.documents) {
-  //                       val source = if (querySnapshot.metadata.isFromCache)
-  //                           "local cache"
-  //                       else
-  //                           "server"
-  //                       Log.d(ContentValues.TAG, "Data fetched from $source")
-  //                       try {
-  //                           val artwork = document.toObject(Artwork::class.java)
-  //                           if (artwork != null) {
-  //                               val fixedArtwork = fixArtwork(artwork,document)
-  //                               artworksArray.add(fixedArtwork)
-  //                           }
-  //                       } catch (e: Exception) {
-  //                           Log.d(ContentValues.TAG, "Cannot create Artwork obj document: " + document.toString())
-  //                           Log.d(ContentValues.TAG, e.toString())
-  //                       }
-  //                   }
-  //               }
-  //               handler(artworksArray)
-  //           })
+    return Artwork.fromMap(snap.data, id);
+  }
+
+  Stream<List<Artwork>> streamArtworks() {
+    return _db.collection('artworks').snapshots().map((list) => list.documents
+        .map((doc) => Artwork.fromMap(doc.data, doc.documentID))
+        .toList());
+  }
+
+  void startListening(Function onSnapshots) {
+    _db.collection('artworks').snapshots().listen((snap) {
+      onSnapshots(
+          snap.documents.map((d) => Artwork.fromMap(d.data, d.documentID)));
+    });
+  }
 }

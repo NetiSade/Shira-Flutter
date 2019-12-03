@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:shira/models/artworks_display_model.dart';
+import 'package:shira/providers/artworks_provider.dart';
 
 import '../../models/artwork.dart';
 import '../../models/artworks_group.dart';
 import '../../models/enums.dart';
-import '../../services/db_service.dart';
 import '../../widgets/artworks_list.dart';
 
 import 'main_bottom_nav_bar.dart';
@@ -28,6 +29,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    _allArtworks = Provider.of<ArtworksProvider>(context).artworks;
+    _sortArtworks();
+
     return Scaffold(
       key: _drawerKey,
       body: Container(
@@ -47,21 +51,10 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-    DbService().getArtworks.then((artworks) {
-      setState(() {
-        _allArtworks = artworks;
-        _sortArtworks();
-      });
-    });
-  }
-
   _sortArtworks() {
     this._artworkGroups = List<ArtworkGroup>();
 
-    if (_allArtworks.length == 0) {
+    if (_allArtworks == null || _allArtworks.length == 0) {
       return;
     }
 

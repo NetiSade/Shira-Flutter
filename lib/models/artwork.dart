@@ -9,10 +9,9 @@ class Artwork {
       {this.id, this.title, this.artistName, this.bodyText, this.publisheDate});
 
   Artwork.fromMap(Map<String, dynamic> data, String id)
-      : this(
-            id: id,
-            title: data['title'],
-            artistName: data['artistName'],
-            bodyText: data['bodyText'],
-            publisheDate: data['publisheDate'].toDate());
+      : id = id ?? '',
+        title = data['title'] ?? '',
+        artistName = data['artistName'] ?? '',
+        bodyText = data['bodyText'] ?? '',
+        publisheDate = data['publisheDate']?.toDate();
 }
