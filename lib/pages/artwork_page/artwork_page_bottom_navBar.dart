@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class ArtworkPageBottomNavBar extends StatelessWidget {
   const ArtworkPageBottomNavBar({
@@ -23,30 +24,31 @@ class ArtworkPageBottomNavBar extends StatelessWidget {
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
             backgroundColor: Theme.of(context).accentColor,
-            icon: Icon(Icons.arrow_back),
+            icon: SvgPicture.asset('assets/images/arrow-back.svg'),
             title: Text('חזרה',
                 style: TextStyle(
                     fontSize: 12, color: Color.fromRGBO(47, 83, 68, 1)))),
         BottomNavigationBarItem(
             backgroundColor: Theme.of(context).accentColor,
-            icon: Icon(Icons.language),
+            icon: SvgPicture.asset('assets/images/lang.svg'),
             title: Text('שפת מקור',
                 style: TextStyle(
                     fontSize: 12, color: Color.fromRGBO(47, 83, 68, 1)))),
         BottomNavigationBarItem(
             backgroundColor: Theme.of(context).accentColor,
-            icon: Icon(Icons.share),
+            icon: SvgPicture.asset(
+              'assets/images/share.svg',
+            ),
             title: Text('שיתוף',
                 style: TextStyle(
                     fontSize: 12, color: Color.fromRGBO(47, 83, 68, 1)))),
         BottomNavigationBarItem(
             backgroundColor: Theme.of(context).accentColor,
-            icon: Icon(Icons.forum),
-            title: Text(
-              'שירה',
-              style:
-                  TextStyle(fontSize: 12, color: Color.fromRGBO(47, 83, 68, 1)),
-            )),
+            icon: SvgPicture.asset(
+              'assets/images/shira-logo.svg',
+              width: 50,
+            ),
+            title: Container()),
       ],
     );
   }

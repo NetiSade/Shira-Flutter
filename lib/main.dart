@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:shira/locator.dart';
-import 'package:shira/providers/artworks_provider.dart';
+
+import 'locator.dart';
+import 'providers/artists_provider.dart';
+import 'providers/artworks_provider.dart';
 import 'pages/artwork_page/artwork_page.dart';
 import 'pages/home_page/home_page.dart';
+import 'pages/artists_page.dart';
+import 'pages/artist_detail_page.dart';
 
 void main() {
   setupLocator();
@@ -21,24 +25,28 @@ class MyApp extends StatelessWidget {
           GlobalWidgetsLocalizations.delegate,
         ],
         supportedLocales: [
-          Locale("he", "IL"), // OR Locale('ar', 'AE') OR Other RTL locales
+          Locale("he", "IL"),
         ],
-        locale:
-            Locale("he", "IL"), // OR Locale('ar', 'AE') OR Other RTL locales,
-
+        locale: Locale("he", "IL"),
         theme: ThemeData(
+            fontFamily: 'Afek',
             primarySwatch: Colors.blue,
             accentColor: Color.fromRGBO(154, 226, 197, 1)),
-
         home: HomePage(),
         routes: {
           ArtworkPage.routeName: (ctx) => ArtworkPage(),
+          ArtistsPage.routeName: (ctx) => ArtistsPage(),
+          HomePage.routeName: (ctx) => HomePage(),
+          ArtistDetailPage.routeName: (ctx) => ArtistDetailPage(),
         },
       ),
       providers: [
         ChangeNotifierProvider<ArtworksProvider>(
           create: (_) => ArtworksProvider(),
-        )
+        ),
+        ChangeNotifierProvider<ArtistsProvider>(
+          create: (_) => ArtistsProvider(),
+        ),
       ],
     );
   }

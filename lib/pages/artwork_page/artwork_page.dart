@@ -29,34 +29,36 @@ class _ArtworkPageState extends State<ArtworkPage> {
   Widget build(BuildContext context) {
     final artwork = ModalRoute.of(context).settings.arguments as Artwork;
     return Scaffold(
-      body: SingleChildScrollView(
-        child: GestureDetector(
-          onTap: () {
-            setState(() {
-              showBottomNavBar = !showBottomNavBar;
-            });
-          },
-          child: Container(
-            width: double.infinity,
-            padding: EdgeInsets.all(50),
-            child: Column(
-              children: <Widget>[
-                Text(
-                  artwork.title,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  artwork.artistName,
-                  style: TextStyle(
-                      fontSize: 18,
-                      color: Color.fromRGBO(248, 122, 100, 1),
-                      fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  artwork.bodyText,
-                  style: TextStyle(fontSize: 24),
-                )
-              ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: GestureDetector(
+            onTap: () {
+              setState(() {
+                showBottomNavBar = !showBottomNavBar;
+              });
+            },
+            child: Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(50),
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    artwork.title,
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    artwork.artistName,
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Color.fromRGBO(248, 122, 100, 1),
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    artwork.bodyText,
+                    style: TextStyle(fontSize: 24),
+                  )
+                ],
+              ),
             ),
           ),
         ),

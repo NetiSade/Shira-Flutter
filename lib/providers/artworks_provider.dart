@@ -17,6 +17,10 @@ class ArtworksProvider with ChangeNotifier {
     return [..._artworks];
   }
 
+  List<Artwork> getArtistArtworks(String artistName) {
+    return _artworks.where((a) => a.artistName == artistName).toList();
+  }
+
   void startListening() {
     _dbService.streamArtworks().listen((artworks) {
       _artworks = artworks;

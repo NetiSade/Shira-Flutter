@@ -1,8 +1,8 @@
 import 'artwork.dart';
 
-class ArtworkGroup {
+class ArtworksGroup {
   final List<Artwork> artworks;
   final String title;
 
-  ArtworkGroup({this.artworks, this.title});
+  ArtworksGroup({this.artworks, this.title});
 }

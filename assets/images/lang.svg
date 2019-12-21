@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="29px" height="25px" viewBox="0 0 29 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <g id="MobileFIN" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="poem_page_markFav" transform="translate(-220.000000, -733.000000)">
+            <g id="Group-8" transform="translate(0.000000, 725.000000)">
+                <g id="Group" transform="translate(222.000000, 10.000000)">
+                    <line x1="11.0368667" y1="2.65176667" x2="20.4222" y2="8.07043333" id="Path" stroke="#2F5344" stroke-width="2" stroke-linejoin="round"></line>
+                    <line x1="8.04086667" y1="4.3931" x2="17.4262" y2="9.81143333" id="Path" stroke="#2F5344" stroke-width="2" stroke-linejoin="round"></line>
+                    <line x1="9.7352" y1="8.84443333" x2="14.4278667" y2="11.5537667" id="Path" stroke="#2F5344" stroke-width="2" stroke-linejoin="round"></line>
+                    <polygon id="Stroke-2" stroke="#2F5344" stroke-width="2" points="0.0001 7.23866667 12.4561 -1.34114941e-13 24.9954333 7.23966667 12.5397667 14.4783333"></polygon>
+                    <polyline id="Stroke-4" stroke="#2F5344" stroke-width="2" points="19.011 10.7119667 24.9953333 14.1669667 12.5396667 21.4053 6.03961325e-14 14.1656333 6.01066667 10.6729667"></polyline>
+                    <polygon id="Fill-7" fill="#D7FAEB" points="12.9368871 1.97384115 3.8466 7.38183333 3.7926 6.31583333 11.9396 1.54916667"></polygon>
+                    <polygon id="Fill-8" fill="#D7FAEB" points="20.8562667 8.4155 13.0132667 12.9735 12.9592667 11.9071667 21.1062667 7.14083333"></polygon>
+                    <polygon id="Fill-8-Copy" fill="#D7FAEB" points="12.1808917 8.45599875 9.10967346 10.1819658 7.9176 9.29922763 11.1177448 7.48877969"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

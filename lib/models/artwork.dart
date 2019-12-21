@@ -13,5 +13,5 @@ class Artwork {
         title = data['title'] ?? '',
         artistName = data['artistName'] ?? '',
         bodyText = data['bodyText'] ?? '',
-        publisheDate = data['publisheDate']?.toDate();
+        publisheDate = data['publisheDate'].toDate();
 }

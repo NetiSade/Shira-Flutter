@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:shira/models/artworks_display_model.dart';
-import 'package:shira/providers/artworks_provider.dart';
 
+import '../../models/artworks_display_model.dart';
+import '../../providers/artworks_provider.dart';
 import '../../models/artwork.dart';
 import '../../models/artworks_group.dart';
 import '../../models/enums.dart';
 import '../../widgets/artworks_list.dart';
-
+import '../../widgets/main_drawer.dart';
 import 'main_bottom_nav_bar.dart';
-import 'main_drawer.dart';
+
+//TODO: move all sort logic to provider
+//TODO: Convert to stateless??
 
 class HomePage extends StatefulWidget {
+  static const routeName = '/home-page';
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  List<ArtworkGroup> _artworkGroups = List<ArtworkGroup>();
+  List<ArtworksGroup> _artworkGroups = List<ArtworksGroup>();
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   var _displayModel = ArtworksDisplayModel();
   var _selectedDisplayModel = ArtworksDisplayModel();
@@ -32,27 +35,29 @@ class _HomePageState extends State<HomePage> {
     _allArtworks = Provider.of<ArtworksProvider>(context).artworks;
     _sortArtworks();
 
-    return Scaffold(
-      key: _drawerKey,
-      body: Container(
-          color: Color.fromRGBO(246, 246, 246, 0),
-          child: ArtworksList(
-            sortType: _displayModel.sortType,
-            artworkGroups: _artworkGroups,
-            allArtworks: _allArtworks,
-          )),
-      drawer: MainDrawer(),
-      bottomNavigationBar: SizedBox(
-        height: 60,
-        child: MainBottomNavBar(
-            bottomNavselectedIndex: _bottomNavselectedIndex,
-            onBottomNavTapped: _onBottomNavTapped),
+    return SafeArea(
+      child: Scaffold(
+        key: _drawerKey,
+        body: Container(
+            color: Color.fromRGBO(246, 246, 246, 0),
+            child: ArtworksList(
+              sortType: _displayModel.sortType,
+              artworkGroups: _artworkGroups,
+              allArtworks: _allArtworks,
+            )),
+        drawer: MainDrawer(),
+        bottomNavigationBar: SizedBox(
+          height: 60,
+          child: MainBottomNavBar(
+              bottomNavSelectedIndex: _bottomNavselectedIndex,
+              onBottomNavTapped: _onBottomNavTapped),
+        ),
       ),
     );
   }
 
   _sortArtworks() {
-    this._artworkGroups = List<ArtworkGroup>();
+    this._artworkGroups = List<ArtworksGroup>();
 
     if (_allArtworks == null || _allArtworks.length == 0) {
       return;
@@ -99,7 +104,7 @@ class _HomePageState extends State<HomePage> {
           showSortBottomSheet(ctx);
           break;
         case 2:
-          showSearchBottomSheet(ctx);
+          showSearchBottomSheet(ctx, true);
           break;
         case 0:
           _displayModel.sortType = _displayModel.sortType == SortType.None
@@ -130,12 +135,13 @@ class _HomePageState extends State<HomePage> {
   void onSearchQueryChnaged(String query) {
     setState(() {
       _displayModel.searchQuery = query;
+      _displayModel.sortType = SortType.Date;
       _sortArtworks();
     });
   }
 
-  void showSearchBottomSheet(BuildContext ctx) {
-    showModalBottomSheet(
+  void showSearchBottomSheet(BuildContext ctx, bool autofocus) {
+    var modalBottomSheet = showModalBottomSheet(
         elevation: 5,
         context: ctx,
         builder: (ctx) {
@@ -153,7 +159,7 @@ class _HomePageState extends State<HomePage> {
                       onChanged: (query) {
                         onSearchQueryChnaged(query);
                       },
-                      autofocus: true,
+                      autofocus: autofocus,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'חפש',
@@ -167,6 +173,12 @@ class _HomePageState extends State<HomePage> {
                     )));
           });
         });
+
+    modalBottomSheet.whenComplete(() {
+      if (autofocus) {
+        showSearchBottomSheet(ctx, false);
+      }
+    });
   }
 
   _sortByDate() {
@@ -186,7 +198,7 @@ class _HomePageState extends State<HomePage> {
           artworkDate.month == groupDate.month) {
         list.add(_allArtworks[i]);
       } else {
-        var ag = ArtworkGroup(
+        var ag = ArtworksGroup(
             artworks: list,
             title:
                 "${DateFormat('MMMM').format(artwork.publisheDate)} ${artwork.publisheDate.year}");
@@ -197,7 +209,7 @@ class _HomePageState extends State<HomePage> {
       }
     }
     var artwork = list[0];
-    var ag = ArtworkGroup(
+    var ag = ArtworksGroup(
         artworks: list,
         title:
             "${DateFormat('MMMM').format(artwork.publisheDate)} ${artwork.publisheDate.year}");
@@ -220,7 +232,7 @@ class _HomePageState extends State<HomePage> {
       if (groupChar == artworkChar) {
         list.add(_allArtworks[i]);
       } else {
-        var ag = ArtworkGroup(artworks: list, title: groupChar);
+        var ag = ArtworksGroup(artworks: list, title: groupChar);
         this._artworkGroups.add(ag);
         list = List<Artwork>();
         list.add(artwork);
@@ -229,7 +241,7 @@ class _HomePageState extends State<HomePage> {
     }
 
     var artwork = list[0];
-    var ag = ArtworkGroup(artworks: list, title: artwork.artistName[0]);
+    var ag = ArtworksGroup(artworks: list, title: artwork.artistName[0]);
     this._artworkGroups.add(ag);
   }
 
@@ -249,7 +261,7 @@ class _HomePageState extends State<HomePage> {
       if (groupChar == artworkChar) {
         list.add(_allArtworks[i]);
       } else {
-        var ag = ArtworkGroup(artworks: list, title: groupChar);
+        var ag = ArtworksGroup(artworks: list, title: groupChar);
         this._artworkGroups.add(ag);
         list = List<Artwork>();
         list.add(artwork);
@@ -258,7 +270,7 @@ class _HomePageState extends State<HomePage> {
     }
 
     var artwork = list[0];
-    var ag = ArtworkGroup(artworks: list, title: artwork.title[0]);
+    var ag = ArtworksGroup(artworks: list, title: artwork.title[0]);
     this._artworkGroups.add(ag);
   }
 
@@ -279,11 +291,12 @@ class _HomePageState extends State<HomePage> {
       }
     }
 
-    _artworkGroups.add(ArtworkGroup(artworks: artworkNameList, title: 'שירים'));
     _artworkGroups
-        .add(ArtworkGroup(artworks: artworkBodyList, title: 'מילים מתוך שיר'));
+        .add(ArtworksGroup(artworks: artworkNameList, title: 'שירים'));
     _artworkGroups
-        .add(ArtworkGroup(artworks: artistNameList, title: 'משוררים'));
+        .add(ArtworksGroup(artworks: artworkBodyList, title: 'מילים מתוך שיר'));
+    _artworkGroups
+        .add(ArtworksGroup(artworks: artistNameList, title: 'משוררים'));
   }
 
   _buildBottomSheet(Function setModalState) {

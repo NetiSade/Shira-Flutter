@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class MainBottomNavBar extends StatelessWidget {
   const MainBottomNavBar({
     Key key,
-    @required int bottomNavselectedIndex,
+    @required int bottomNavSelectedIndex,
     @required Function onBottomNavTapped,
-  })  : _bottomNavselectedIndex = bottomNavselectedIndex,
+  })  : _bottomNavselectedIndex = bottomNavSelectedIndex,
         _onBottomNavTapped = onBottomNavTapped,
         super(key: key);
 
@@ -23,30 +24,31 @@ class MainBottomNavBar extends StatelessWidget {
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
             backgroundColor: Theme.of(context).accentColor,
-            icon: Icon(Icons.sort),
+            icon: SvgPicture.asset('assets/images/view-list.svg'),
             title: Text('תצוגה',
                 style: TextStyle(
                     fontSize: 12, color: Color.fromRGBO(47, 83, 68, 1)))),
         BottomNavigationBarItem(
             backgroundColor: Theme.of(context).accentColor,
-            icon: Icon(Icons.filter),
-            title: Text('מיון',
+            icon: SvgPicture.asset('assets/images/sort.svg'),
+            title: Text('מיון לפי',
                 style: TextStyle(
                     fontSize: 12, color: Color.fromRGBO(47, 83, 68, 1)))),
         BottomNavigationBarItem(
             backgroundColor: Theme.of(context).accentColor,
-            icon: Icon(Icons.search),
+            icon: SvgPicture.asset(
+              'assets/images/search.svg',
+            ),
             title: Text('חיפוש',
                 style: TextStyle(
                     fontSize: 12, color: Color.fromRGBO(47, 83, 68, 1)))),
         BottomNavigationBarItem(
             backgroundColor: Theme.of(context).accentColor,
-            icon: Icon(Icons.forum),
-            title: Text(
-              'שירה',
-              style:
-                  TextStyle(fontSize: 12, color: Color.fromRGBO(47, 83, 68, 1)),
-            )),
+            icon: SvgPicture.asset(
+              'assets/images/shira-logo.svg',
+              width: 50,
+            ),
+            title: Container()),
       ],
     );
   }

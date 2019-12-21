@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="15px" viewBox="0 0 32 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
+    <title>Group 5</title>
+    <desc>Created with Sketch.</desc>
+    <g id="MobileFIN" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="poem_carousel" transform="translate(-218.000000, -623.000000)" stroke="#2F5344" stroke-width="2">
+            <g id="Group-8" transform="translate(0.000000, 607.000000)">
+                <g id="Group-11" transform="translate(187.000000, 16.000000)">
+                    <g id="Group-5" transform="translate(32.000000, 0.000000)">
+                        <line x1="14.7777778" y1="-10" x2="14.7777778" y2="18" id="Line-3" stroke-linecap="square" transform="translate(14.777778, 4.000000) rotate(-270.000000) translate(-14.777778, -4.000000) "></line>
+                        <line x1="15.1212736" y1="-3" x2="15.1212736" y2="25" id="Line-3-Copy-3" stroke-linecap="square" transform="translate(15.121274, 11.000000) rotate(-270.000000) translate(-15.121274, -11.000000) "></line>
+                        <circle id="Oval" fill="#AEEBD2" transform="translate(21.500000, 4.000000) rotate(-270.000000) translate(-21.500000, -4.000000) " cx="21.5" cy="4" r="2.5"></circle>
+                        <circle id="Oval-Copy-3" fill="#AEEBD2" transform="translate(8.500000, 11.000000) rotate(-270.000000) translate(-8.500000, -11.000000) " cx="8.5" cy="11" r="2.5"></circle>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

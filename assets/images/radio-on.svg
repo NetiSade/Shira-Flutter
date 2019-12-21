@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="42px" height="24px" viewBox="0 0 42 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
+    <title>Group 2</title>
+    <desc>Created with Sketch.</desc>
+    <g id="MobileFIN" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="settings_eventInfo" transform="translate(-31.000000, -343.000000)">
+            <g id="Group-2" transform="translate(31.000000, 343.000000)">
+                <path d="M12,-1.42108547e-14 L30,-1.42108547e-14 C36.627417,-1.54282915e-14 42,5.372583 42,12 C42,18.627417 36.627417,24 30,24 L12,24 C5.372583,24 8.11624501e-16,18.627417 0,12 C-8.11624501e-16,5.372583 5.372583,-1.2993418e-14 12,-1.42108547e-14 Z" id="Rectangle-Copy-4" fill="#F87A64"></path>
+                <circle id="Oval-Copy-6" fill="#FFFFFF" transform="translate(13.000000, 12.000000) scale(-1, 1) translate(-13.000000, -12.000000) " cx="13" cy="12" r="9"></circle>
+            </g>
+        </g>
+    </g>
+</svg>
