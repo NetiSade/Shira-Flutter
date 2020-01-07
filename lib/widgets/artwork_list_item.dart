@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:shira/providers/artworks_provider.dart';
 import '../models/artwork.dart';
 
 class ArtworkListItem extends StatelessWidget {
@@ -29,23 +31,24 @@ class ArtworkListItem extends StatelessWidget {
                   decoration: BoxDecoration(
                       border: Border(
                     bottom: BorderSide(
-                        width: 1, color: Theme.of(context).accentColor),
+                        width: 1, color: Theme.of(context).primaryColor),
                   )),
-                  child:
-                      Card(margin: EdgeInsets.all(0), child: _buildListTile()))
+                  child: Card(
+                      margin: EdgeInsets.all(0),
+                      child: _buildListTile(context)))
               : Card(
                   margin: EdgeInsets.all(0),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                           bottomRight: Radius.circular(40),
                           bottomLeft: Radius.circular(40))),
-                  child: _buildListTile()),
+                  child: _buildListTile(context)),
         ),
       ),
     );
   }
 
-  Widget _buildListTile() {
+  Widget _buildListTile(BuildContext context) {
     if (showDate && showArtistName)
       return Container(
         height: 73,
@@ -75,10 +78,13 @@ class ArtworkListItem extends StatelessWidget {
             style: TextStyle(fontSize: 12),
           ),
           trailing: GestureDetector(
-            onTap: () {},
-            child: SvgPicture.asset(
-              'assets/images/fav-off.svg',
-            ),
+            onTap: () {
+              Provider.of<ArtworksProvider>(context, listen: false)
+                  .toggleFavorite(artwork.id);
+            },
+            child: SvgPicture.asset(artwork.isFavorite
+                ? 'assets/images/fav-on.svg'
+                : 'assets/images/fav-off.svg'),
           ),
         ),
       );

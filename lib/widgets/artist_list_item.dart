@@ -21,7 +21,7 @@ class ArtistListItem extends StatelessWidget {
                   decoration: BoxDecoration(
                       border: Border(
                     bottom: BorderSide(
-                        width: 1, color: Theme.of(context).accentColor),
+                        width: 1, color: Theme.of(context).primaryColor),
                   )),
                   child: Card(
                       margin: EdgeInsets.all(0),

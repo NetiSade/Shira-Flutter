@@ -30,8 +30,8 @@ class MyApp extends StatelessWidget {
         locale: Locale("he", "IL"),
         theme: ThemeData(
             fontFamily: 'Afek',
-            primarySwatch: Colors.blue,
-            accentColor: Color.fromRGBO(154, 226, 197, 1)),
+            primaryColor: Color.fromRGBO(154, 226, 197, 1),
+            accentColor: Color.fromRGBO(248, 122, 100, 1)),
         home: HomePage(),
         routes: {
           ArtworkPage.routeName: (ctx) => ArtworkPage(),

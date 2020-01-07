@@ -11,7 +11,7 @@ class MainDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
         child: Container(
-      color: Theme.of(context).accentColor,
+      color: Theme.of(context).primaryColor,
       child: ListView(
         children: <Widget>[
           DrawerHeader(

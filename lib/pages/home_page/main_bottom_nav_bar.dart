@@ -17,25 +17,25 @@ class MainBottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
-      backgroundColor: Theme.of(context).accentColor,
+      backgroundColor: Theme.of(context).primaryColor,
       currentIndex: _bottomNavselectedIndex,
       selectedItemColor: Color.fromRGBO(47, 83, 68, 1),
       onTap: (index) => _onBottomNavTapped(index, context),
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-            backgroundColor: Theme.of(context).accentColor,
+            backgroundColor: Theme.of(context).primaryColor,
             icon: SvgPicture.asset('assets/images/view-list.svg'),
             title: Text('תצוגה',
                 style: TextStyle(
                     fontSize: 12, color: Color.fromRGBO(47, 83, 68, 1)))),
         BottomNavigationBarItem(
-            backgroundColor: Theme.of(context).accentColor,
+            backgroundColor: Theme.of(context).primaryColor,
             icon: SvgPicture.asset('assets/images/sort.svg'),
             title: Text('מיון לפי',
                 style: TextStyle(
                     fontSize: 12, color: Color.fromRGBO(47, 83, 68, 1)))),
         BottomNavigationBarItem(
-            backgroundColor: Theme.of(context).accentColor,
+            backgroundColor: Theme.of(context).primaryColor,
             icon: SvgPicture.asset(
               'assets/images/search.svg',
             ),
@@ -43,7 +43,7 @@ class MainBottomNavBar extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 12, color: Color.fromRGBO(47, 83, 68, 1)))),
         BottomNavigationBarItem(
-            backgroundColor: Theme.of(context).accentColor,
+            backgroundColor: Theme.of(context).primaryColor,
             icon: SvgPicture.asset(
               'assets/images/shira-logo.svg',
               width: 50,

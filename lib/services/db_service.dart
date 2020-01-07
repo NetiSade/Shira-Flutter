@@ -13,15 +13,28 @@ class DbService {
   }
 
   Stream<List<Artwork>> streamArtworks() {
-    return _db.collection('artworks').orderBy('publisheDate').snapshots().map(
-        (list) => list.documents
-            .map((doc) => Artwork.fromMap(doc.data, doc.documentID))
+    return _db
+        .collection('artworks')
+        //.where('isPublic', isEqualTo: true)
+        //.where('type', isEqualTo: 'poem')
+        //.where('verifiedByEditor', isEqualTo: true)
+        .orderBy('publisheDate')
+        .snapshots()
+        .map((list) => list.documents
+            .map((doc) => Artwork.fromMap(
+                  doc.data,
+                  doc.documentID,
+                ))
             .toList());
   }
 
   Stream<List<Artist>> streamArtists() {
-    return _db.collection('artists').orderBy('firstLetter').snapshots().map(
-        (list) => list.documents
+    return _db
+        .collection('artists')
+        //.where('type', isEqualTo: 'poet')
+        .orderBy('firstLetter')
+        .snapshots()
+        .map((list) => list.documents
             .map((doc) => Artist.fromMap(doc.data, doc.documentID))
             .toList());
   }

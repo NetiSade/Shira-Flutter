@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/artworks_provider.dart';
 import 'artwork_preview_list_item.dart';
 import 'artworks_group_widget.dart';
 import '../pages/artwork_page/artwork_page.dart';
@@ -8,38 +10,38 @@ import '../models/artworks_group.dart';
 import '../models/enums.dart';
 
 class ArtworksList extends StatelessWidget {
-  final SortType sortType;
-  final List<ArtworksGroup> artworkGroups;
-  final List<Artwork> allArtworks;
   final bool showDate;
   final bool showArtistName;
+  final String artistName;
 
-  const ArtworksList(
-      {this.sortType,
-      this.artworkGroups,
-      this.allArtworks,
-      this.showArtistName = true,
-      this.showDate = true});
+  const ArtworksList({
+    this.showArtistName = true,
+    this.showDate = true,
+    this.artistName = '',
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Color.fromRGBO(246, 246, 246, 0),
-      child: sortType != SortType.None
-          ? artworkGroups == null
-              ? Container(
-                  color: Theme.of(context).accentColor,
-                  child: Center(
-                      child: Text(
-                    'Loading',
-                  )),
-                )
-              : _buildSortedGroups(context)
-          : _buildArtworkPreviewList(context),
-    );
+    var artworksProvider = Provider.of<ArtworksProvider>(context);
+    var allArtworks = artworksProvider.artworks;
+    var groups = artworksProvider.artworkGroups;
+    var sortType = artworksProvider.displayModel.sortType;
+
+    return artistName == ''
+        ? Container(
+            color: Color.fromRGBO(246, 246, 246, 0),
+            child: sortType != SortType.None
+                ? _buildSortedGroups(context, groups)
+                : _buildArtworkPreviewList(context, allArtworks),
+          )
+        : Container(
+            color: Color.fromRGBO(246, 246, 246, 0),
+            child: _buildSortedGroups(
+                context, [artworksProvider.getArtistArtworks(artistName)]));
   }
 
-  Widget _buildSortedGroups(BuildContext context) {
+  Widget _buildSortedGroups(
+      BuildContext context, List<ArtworksGroup> artworkGroups) {
     return ListView.builder(
         itemCount: artworkGroups.length,
         itemBuilder: (BuildContext context, int index) => ArtworksGroupWidget(
@@ -49,12 +51,13 @@ class ArtworksList extends StatelessWidget {
             showArtistName: showArtistName));
   }
 
-  Widget _buildArtworkPreviewList(BuildContext buildContext) {
+  Widget _buildArtworkPreviewList(
+      BuildContext buildContext, List<Artwork> artworks) {
     return ListView.builder(
-        itemCount: allArtworks.length,
+        itemCount: artworks.length,
         itemBuilder: (BuildContext context, int index) =>
             ArtworkPreviewListItem(
-              artwork: allArtworks[index],
+              artwork: artworks[index],
               onTap: _navToArtworkPage,
             ));
   }

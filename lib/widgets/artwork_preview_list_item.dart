@@ -60,7 +60,8 @@ class ArtworkPreviewListItem extends StatelessWidget {
   Widget _buildListTile(BuildContext context) {
     return ListTile(
       trailing: IconButton(
-        icon: Icon(Icons.favorite_border, color: Theme.of(context).accentColor),
+        icon:
+            Icon(Icons.favorite_border, color: Theme.of(context).primaryColor),
         onPressed: () => {},
       ),
       title: Text(
