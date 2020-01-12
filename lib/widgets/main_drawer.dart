@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../pages/artists_page.dart';
-import '../pages/home_page/home_page.dart';
+import '../pages/artworks_page.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({
@@ -28,7 +28,7 @@ class MainDrawer extends StatelessWidget {
             ),
           ),
           buildListTile(context, 'שירים', () {
-            Navigator.of(context).pushReplacementNamed(HomePage.routeName);
+            Navigator.of(context).pushReplacementNamed(ArtworksPage.routeName);
           }),
           buildListTile(context, 'שירים מאויירים', () {}),
           buildListTile(context, 'משוררים', () {

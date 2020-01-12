@@ -10,7 +10,6 @@ class Artwork {
   final String sourceLang;
   final String strippedBodyText;
   final String strippedTitle;
-
   bool isFavorite = false;
 
   Artwork.fromMap(Map<String, dynamic> data, String id)

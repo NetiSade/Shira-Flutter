@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shira/models/artworks_group.dart';
-
 import 'artwork_list_item.dart';
 
 class ArtworksGroupWidget extends StatelessWidget {
@@ -9,11 +8,12 @@ class ArtworksGroupWidget extends StatelessWidget {
   final bool showDate;
   final bool showArtistName;
 
-  const ArtworksGroupWidget(
-      {this.artworkGroup,
-      this.onItemTapped,
-      this.showArtistName = true,
-      this.showDate = true});
+  const ArtworksGroupWidget({
+    this.artworkGroup,
+    this.onItemTapped,
+    this.showArtistName = true,
+    this.showDate = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,17 +37,21 @@ class ArtworksGroupWidget extends StatelessWidget {
             Container(
               height: artworkGroup.artworks.length * 73.0,
               child: ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  padding: const EdgeInsets.all(0),
-                  itemCount: artworkGroup.artworks.length,
-                  itemBuilder: (BuildContext context, int index) =>
-                      ArtworkListItem(
-                          artwork: artworkGroup.artworks[index],
-                          isLast: index == artworkGroup.artworks.length - 1,
-                          onTap: onItemTapped,
-                          showDate: showDate,
-                          showArtistName: showArtistName)),
-            ),
+                physics: const NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.all(0),
+                itemCount: artworkGroup.artworks.length,
+                itemBuilder: (BuildContext context, int index) =>
+                    ArtworkListItem(
+                  artwork: artworkGroup.artworks[index],
+                  isLast: index == artworkGroup.artworks.length - 1,
+                  onTap: onItemTapped,
+                  showDate: showDate,
+                  showArtistName: showArtistName,
+                  searchQuery: artworkGroup.searchQuery,
+                  searchRQueryArea: artworkGroup.searchQueryArea,
+                ),
+              ),
+            )
           ],
         ));
   }

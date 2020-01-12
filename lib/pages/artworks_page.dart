@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../pages/home_page/sort_modal.dart';
-import '../../providers/artworks_provider.dart';
-import '../../models/enums.dart';
-import '../../widgets/artworks_list.dart';
-import '../../widgets/main_drawer.dart';
-import 'main_bottom_nav_bar.dart';
+import '../widgets/sort_modal.dart';
+import '../providers/artworks_provider.dart';
+import '../models/enums.dart';
+import '../widgets/artworks_list.dart';
+import '../widgets/main_drawer.dart';
+import '../widgets/main_bottom_nav_bar.dart';
 
-class HomePage extends StatefulWidget {
+class ArtworksPage extends StatefulWidget {
   static const routeName = '/home-page';
   @override
-  _HomePageState createState() => _HomePageState();
+  _ArtworksPageState createState() => _ArtworksPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _ArtworksPageState extends State<ArtworksPage> {
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   int _bottomNavselectedIndex = 0;
   final TextEditingController _searchQueryController = TextEditingController();
@@ -29,33 +29,45 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         key: _drawerKey,
         body: Container(
-            color: Color.fromRGBO(246, 246, 246, 0),
             child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    _artworksProvider.displayModel.searchQuery == ''
-                        ? ''
-                        : 'תוצאות חיפוש: \"${_artworksProvider.displayModel.searchQuery}\"',
-                    style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.bold),
-                  ),
+          children: <Widget>[
+            if (_artworksProvider.displayModel.searchQuery != '')
+              ListTile(
+                title: Text(
+                  _artworksProvider.displayModel.searchQuery == ''
+                      ? ''
+                      : 'תוצאות חיפוש: \"${_artworksProvider.displayModel.searchQuery}\"',
+                  style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.bold),
                 ),
-                SizedBox(
-                  width: double.infinity,
-                  height: 560,
-                  child: _artworksList,
+                trailing: IconButton(
+                  icon: Icon(Icons.cancel),
+                  onPressed: () {
+                    _searchQueryController.clear();
+                    onSearchQueryChnaged('');
+                  },
                 ),
-              ],
-            )),
+                onTap: () {
+                  showSearchBottomSheet(ctx: context);
+                },
+              ),
+            SizedBox(
+              width: double.infinity,
+              height: _artworksProvider.displayModel.searchQuery == ''
+                  ? MediaQuery.of(context).size.height - 84
+                  : MediaQuery.of(context).size.height - 84 - 56,
+              child: _artworksList,
+            ),
+          ],
+        )),
         drawer: MainDrawer(),
         bottomNavigationBar: SizedBox(
           height: 60,
           child: MainBottomNavBar(
-              bottomNavSelectedIndex: _bottomNavselectedIndex,
-              onBottomNavTapped: _onBottomNavTapped),
+            selectedIndex: _bottomNavselectedIndex,
+            onBottomNavTapped: _onBottomNavTapped,
+          ),
         ),
       ),
     );
@@ -73,13 +85,13 @@ class _HomePageState extends State<HomePage> {
           showSortBottomSheet(ctx);
           break;
         case 2:
-          showSearchBottomSheet(ctx, true);
+          showSearchBottomSheet(ctx: ctx);
           break;
         case 0:
-          _artworksProvider.displayModel.sortType =
-              _artworksProvider.displayModel.sortType == SortType.None
-                  ? SortType.Date
-                  : SortType.None;
+          var dm = _artworksProvider.displayModel;
+          dm.sortType =
+              dm.sortType == SortType.None ? SortType.Date : SortType.None;
+          _artworksProvider.setDisplayModel(dm);
           break;
         default:
       }
@@ -121,7 +133,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void showSearchBottomSheet(BuildContext ctx, bool autofocus) {
+  void showSearchBottomSheet({BuildContext ctx, bool autofocus = true}) {
     showModalBottomSheet(
         elevation: 5,
         context: ctx,

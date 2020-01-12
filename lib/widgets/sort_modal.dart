@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/enums.dart';
-import '../../providers/artworks_provider.dart';
+import '../models/enums.dart';
+import '../providers/artworks_provider.dart';
 
 class SortModal extends StatelessWidget {
   final Function setModalState;

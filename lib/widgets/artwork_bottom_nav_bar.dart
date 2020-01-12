@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 
-class MainBottomNavBar extends StatelessWidget {
-  const MainBottomNavBar({
-    Key key,
-    @required int bottomNavSelectedIndex,
-    @required Function onBottomNavTapped,
-  })  : _bottomNavselectedIndex = bottomNavSelectedIndex,
-        _onBottomNavTapped = onBottomNavTapped,
-        super(key: key);
+class ArtworkBottomNavBar extends StatelessWidget {
+  const ArtworkBottomNavBar(
+    this._bottomNavselectedIndex,
+    this._onBottomNavTapped,
+  );
 
   final int _bottomNavselectedIndex;
   final Function _onBottomNavTapped;
@@ -24,22 +21,22 @@ class MainBottomNavBar extends StatelessWidget {
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
             backgroundColor: Theme.of(context).primaryColor,
-            icon: SvgPicture.asset('assets/images/view-list.svg'),
-            title: Text('תצוגה',
+            icon: SvgPicture.asset('assets/images/arrow-back.svg'),
+            title: Text('חזרה',
                 style: TextStyle(
                     fontSize: 12, color: Color.fromRGBO(47, 83, 68, 1)))),
         BottomNavigationBarItem(
             backgroundColor: Theme.of(context).primaryColor,
-            icon: SvgPicture.asset('assets/images/sort.svg'),
-            title: Text('מיון לפי',
+            icon: SvgPicture.asset('assets/images/lang.svg'),
+            title: Text('שפת מקור',
                 style: TextStyle(
                     fontSize: 12, color: Color.fromRGBO(47, 83, 68, 1)))),
         BottomNavigationBarItem(
             backgroundColor: Theme.of(context).primaryColor,
             icon: SvgPicture.asset(
-              'assets/images/search.svg',
+              'assets/images/share.svg',
             ),
-            title: Text('חיפוש',
+            title: Text('שיתוף',
                 style: TextStyle(
                     fontSize: 12, color: Color.fromRGBO(47, 83, 68, 1)))),
         BottomNavigationBarItem(

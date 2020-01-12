@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import 'locator.dart';
 import 'providers/artists_provider.dart';
 import 'providers/artworks_provider.dart';
-import 'pages/artwork_page/artwork_page.dart';
-import 'pages/home_page/home_page.dart';
+import 'pages/artwork_detail_page.dart';
+import 'pages/artworks_page.dart';
 import 'pages/artists_page.dart';
 import 'pages/artist_detail_page.dart';
 
@@ -32,11 +32,11 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Afek',
             primaryColor: Color.fromRGBO(154, 226, 197, 1),
             accentColor: Color.fromRGBO(248, 122, 100, 1)),
-        home: HomePage(),
+        home: ArtworksPage(),
         routes: {
-          ArtworkPage.routeName: (ctx) => ArtworkPage(),
+          ArtworkDetailPage.routeName: (ctx) => ArtworkDetailPage(),
           ArtistsPage.routeName: (ctx) => ArtistsPage(),
-          HomePage.routeName: (ctx) => HomePage(),
+          ArtworksPage.routeName: (ctx) => ArtworksPage(),
           ArtistDetailPage.routeName: (ctx) => ArtistDetailPage(),
         },
       ),

@@ -55,64 +55,68 @@ class ArtworksProvider with ChangeNotifier {
     sortArtworks();
   }
 
-//TODO: Make it async!!!
-  void sortArtworks() {
-    this._artworkGroups = List<ArtworksGroup>();
-
+  void sortArtworks() async {
     if (_artworks == null || _artworks.length == 0) {
       return;
     }
 
+    var groups = List<ArtworksGroup>();
     if (_displayModel.searchQuery != '') {
-      _sortBySearchQuery(_displayModel.searchQuery);
-      return;
+      groups =
+          await Future(() => _sortBySearchQuery(_displayModel.searchQuery));
+    } else {
+      switch (_displayModel.sortType) {
+        case SortType.Date:
+          groups = await Future(() => _sortByDate());
+          break;
+        case SortType.None:
+          break;
+        case SortType.ArtistName:
+          groups = await Future(() => _sortByArtistName());
+          break;
+        case SortType.ArtworkName:
+          groups = await Future(() => _sortByArtworkName());
+          break;
+        default:
+          groups = await Future(() => _sortByDate());
+      }
     }
 
-    switch (_displayModel.sortType) {
-      case SortType.Date:
-        _sortByDate();
-        break;
-      case SortType.None:
-        break;
-      case SortType.ArtistName:
-        _sortByArtistName();
-        break;
-      case SortType.ArtworkName:
-        _sortByArtworkName();
-        break;
-      default:
-        _sortByDate();
-    }
-
+    _artworkGroups = groups;
     notifyListeners();
   }
 
-  _sortBySearchQuery(String searchQuery) {
-    var artworkBodyList = List<Artwork>();
-    var artworkNameList = List<Artwork>();
-    var artistNameList = List<Artwork>();
+  List<ArtworksGroup> _sortBySearchQuery(String searchQuery) {
+    var groups = List<ArtworksGroup>();
 
-    for (var artwork in _artworks) {
-      if (artwork.bodyText.contains(searchQuery)) {
-        artworkBodyList.add(artwork);
-      }
-      if (artwork.title.contains(searchQuery)) {
-        artworkNameList.add(artwork);
-      }
-      if (artwork.artistName.contains(searchQuery)) {
-        artistNameList.add(artwork);
-      }
-    }
+    var artworkBodyList =
+        _artworks.where((a) => a.bodyText.contains(searchQuery)).toList();
+    var artworkNameList =
+        _artworks.where((a) => a.title.contains(searchQuery)).toList();
+    var artistNameList =
+        _artworks.where((a) => a.artistName.contains(searchQuery)).toList();
 
-    _artworkGroups
-        .add(ArtworksGroup(artworks: artworkNameList, title: 'שירים'));
-    _artworkGroups
-        .add(ArtworksGroup(artworks: artworkBodyList, title: 'מילים מתוך שיר'));
-    _artworkGroups
-        .add(ArtworksGroup(artworks: artistNameList, title: 'משוררים'));
+    groups.add(ArtworksGroup(
+        artworks: artworkNameList,
+        title: 'שירים',
+        searchQuery: searchQuery,
+        searchQueryArea: ArtworkSearchQueryArea.Title));
+    groups.add(ArtworksGroup(
+        artworks: artworkBodyList,
+        title: 'מילים מתוך שיר',
+        searchQuery: searchQuery,
+        searchQueryArea: ArtworkSearchQueryArea.Body));
+    groups.add(ArtworksGroup(
+        artworks: artistNameList,
+        title: 'משוררים',
+        searchQuery: searchQuery,
+        searchQueryArea: ArtworkSearchQueryArea.ArtistName));
+
+    return groups;
   }
 
-  _sortByDate() {
+  List<ArtworksGroup> _sortByDate() {
+    var groups = List<ArtworksGroup>();
     _displayModel.descendingOrder
         ? _artworks.sort((b, a) => a.publisheDate.compareTo(b.publisheDate))
         : _artworks.sort((a, b) => a.publisheDate.compareTo(b.publisheDate));
@@ -133,7 +137,7 @@ class ArtworksProvider with ChangeNotifier {
             artworks: list,
             title:
                 "${DateFormat('MMMM').format(artwork.publisheDate)} ${artwork.publisheDate.year}");
-        this._artworkGroups.add(ag);
+        groups.add(ag);
         list = List<Artwork>();
         list.add(artwork);
         groupDate = artworkDate;
@@ -144,10 +148,12 @@ class ArtworksProvider with ChangeNotifier {
         artworks: list,
         title:
             "${DateFormat('MMMM').format(artwork.publisheDate)} ${artwork.publisheDate.year}");
-    this._artworkGroups.add(ag);
+    groups.add(ag);
+    return groups;
   }
 
-  _sortByArtistName() {
+  List<ArtworksGroup> _sortByArtistName() {
+    var groups = List<ArtworksGroup>();
     _displayModel.descendingOrder
         ? _artworks.sort((b, a) => a.artistName.compareTo(b.artistName))
         : _artworks.sort((a, b) => a.artistName.compareTo(b.artistName));
@@ -164,7 +170,7 @@ class ArtworksProvider with ChangeNotifier {
         list.add(_artworks[i]);
       } else {
         var ag = ArtworksGroup(artworks: list, title: groupChar);
-        this._artworkGroups.add(ag);
+        groups.add(ag);
         list = List<Artwork>();
         list.add(artwork);
         groupChar = artworkChar;
@@ -173,10 +179,12 @@ class ArtworksProvider with ChangeNotifier {
 
     var artwork = list[0];
     var ag = ArtworksGroup(artworks: list, title: artwork.artistName[0]);
-    this._artworkGroups.add(ag);
+    groups.add(ag);
+    return groups;
   }
 
-  _sortByArtworkName() {
+  List<ArtworksGroup> _sortByArtworkName() {
+    var groups = List<ArtworksGroup>();
     _displayModel.descendingOrder
         ? _artworks.sort((b, a) => a.title.compareTo(b.title))
         : _artworks.sort((a, b) => a.title.compareTo(b.title));
@@ -193,7 +201,7 @@ class ArtworksProvider with ChangeNotifier {
         list.add(_artworks[i]);
       } else {
         var ag = ArtworksGroup(artworks: list, title: groupChar);
-        this._artworkGroups.add(ag);
+        groups.add(ag);
         list = List<Artwork>();
         list.add(artwork);
         groupChar = artworkChar;
@@ -202,12 +210,17 @@ class ArtworksProvider with ChangeNotifier {
 
     var artwork = list[0];
     var ag = ArtworksGroup(artworks: list, title: artwork.title[0]);
-    this._artworkGroups.add(ag);
+    groups.add(ag);
+    return groups;
   }
 
   void toggleFavorite(String artworkId) {
     var artwork = _artworks.firstWhere((a) => a.id == artworkId);
     artwork.isFavorite = !artwork.isFavorite;
     notifyListeners();
+  }
+
+  getArtwork(String artworkId) {
+    return artworks.firstWhere((a) => a.id == artworkId);
   }
 }

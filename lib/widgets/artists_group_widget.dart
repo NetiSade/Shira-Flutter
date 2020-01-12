@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/ArtistsGroup.dart';
+import '../models/artists_group.dart';
 import 'artist_list_item.dart';
 
 class ArtistsGroupWidget extends StatelessWidget {
@@ -15,17 +15,18 @@ class ArtistsGroupWidget extends StatelessWidget {
         height: (artistsGroup.artists.length * 73.0) + 36,
         child: Column(
           children: <Widget>[
-            Container(
-              child: Center(
-                child: Container(
-                  child: Text(
-                    artistsGroup.title,
-                    textAlign: TextAlign.center,
+            if (artistsGroup.title != '')
+              Container(
+                child: Center(
+                  child: Container(
+                    child: Text(
+                      artistsGroup.title,
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
+                height: 36,
               ),
-              height: 36,
-            ),
             Container(
               height: artistsGroup.artists.length * 73.0,
               child: ListView.builder(

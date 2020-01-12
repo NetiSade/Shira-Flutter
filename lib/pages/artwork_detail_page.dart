@@ -2,19 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/artworks_provider.dart';
-import '../../widgets/main_drawer.dart';
-import '../../models/artwork.dart';
-import 'artwork_page_bottom_navBar.dart';
+import '../providers/artworks_provider.dart';
+import '../widgets/main_drawer.dart';
+import '../widgets/artwork_bottom_nav_bar.dart';
 
-class ArtworkPage extends StatefulWidget {
+class ArtworkDetailPage extends StatefulWidget {
   static const routeName = '/artwork-page';
 
   @override
-  _ArtworkPageState createState() => _ArtworkPageState();
+  _ArtworkDetailPageState createState() => _ArtworkDetailPageState();
 }
 
-class _ArtworkPageState extends State<ArtworkPage> {
+class _ArtworkDetailPageState extends State<ArtworkDetailPage> {
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   var _bottomNavselectedIndex = 0;
   var showBottomNavBar = false;
@@ -37,7 +36,10 @@ class _ArtworkPageState extends State<ArtworkPage> {
 
   @override
   Widget build(BuildContext context) {
-    final artwork = ModalRoute.of(context).settings.arguments as Artwork;
+    final artworkId = ModalRoute.of(context).settings.arguments as String;
+    final artworksProvider = Provider.of<ArtworksProvider>(context);
+    final artwork = artworksProvider.getArtwork(artworkId);
+
     return Scaffold(
       drawer: MainDrawer(),
       key: _drawerKey,
@@ -69,8 +71,7 @@ class _ArtworkPageState extends State<ArtworkPage> {
                     ),
                     trailing: GestureDetector(
                       onTap: () {
-                        Provider.of<ArtworksProvider>(context, listen: false)
-                            .toggleFavorite(artwork.id);
+                        artworksProvider.toggleFavorite(artwork.id);
                       },
                       child: SvgPicture.asset(
                         artwork.isFavorite
@@ -107,9 +108,8 @@ class _ArtworkPageState extends State<ArtworkPage> {
       bottomNavigationBar: showBottomNavBar
           ? SizedBox(
               height: 60,
-              child: ArtworkPageBottomNavBar(
-                  bottomNavselectedIndex: _bottomNavselectedIndex,
-                  onBottomNavTapped: _onBottomNavTapped),
+              child: ArtworkBottomNavBar(
+                  _bottomNavselectedIndex, _onBottomNavTapped),
             )
           : SizedBox(),
     );

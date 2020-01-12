@@ -1,45 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-class ArtworkPageBottomNavBar extends StatelessWidget {
-  const ArtworkPageBottomNavBar({
-    Key key,
-    @required int bottomNavselectedIndex,
-    @required Function onBottomNavTapped,
-  })  : _bottomNavselectedIndex = bottomNavselectedIndex,
-        _onBottomNavTapped = onBottomNavTapped,
-        super(key: key);
+class MainBottomNavBar extends StatelessWidget {
+  const MainBottomNavBar(
+      {@required this.selectedIndex,
+      @required this.onBottomNavTapped,
+      this.showDisplayOption = true});
 
-  final int _bottomNavselectedIndex;
-  final Function _onBottomNavTapped;
+  final int selectedIndex;
+  final Function onBottomNavTapped;
+  final bool showDisplayOption;
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       backgroundColor: Theme.of(context).primaryColor,
-      currentIndex: _bottomNavselectedIndex,
+      currentIndex: selectedIndex,
       selectedItemColor: Color.fromRGBO(47, 83, 68, 1),
-      onTap: (index) => _onBottomNavTapped(index, context),
+      onTap: (index) => onBottomNavTapped(index, context),
       items: <BottomNavigationBarItem>[
+        if (showDisplayOption)
+          BottomNavigationBarItem(
+              backgroundColor: Theme.of(context).primaryColor,
+              icon: SvgPicture.asset('assets/images/view-list.svg'),
+              title: Text('תצוגה',
+                  style: TextStyle(
+                      fontSize: 12, color: Color.fromRGBO(47, 83, 68, 1)))),
         BottomNavigationBarItem(
             backgroundColor: Theme.of(context).primaryColor,
-            icon: SvgPicture.asset('assets/images/arrow-back.svg'),
-            title: Text('חזרה',
-                style: TextStyle(
-                    fontSize: 12, color: Color.fromRGBO(47, 83, 68, 1)))),
-        BottomNavigationBarItem(
-            backgroundColor: Theme.of(context).primaryColor,
-            icon: SvgPicture.asset('assets/images/lang.svg'),
-            title: Text('שפת מקור',
+            icon: SvgPicture.asset('assets/images/sort.svg'),
+            title: Text('מיון לפי',
                 style: TextStyle(
                     fontSize: 12, color: Color.fromRGBO(47, 83, 68, 1)))),
         BottomNavigationBarItem(
             backgroundColor: Theme.of(context).primaryColor,
             icon: SvgPicture.asset(
-              'assets/images/share.svg',
+              'assets/images/search.svg',
             ),
-            title: Text('שיתוף',
+            title: Text('חיפוש',
                 style: TextStyle(
                     fontSize: 12, color: Color.fromRGBO(47, 83, 68, 1)))),
         BottomNavigationBarItem(

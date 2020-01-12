@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../providers/artworks_provider.dart';
 import 'artwork_preview_list_item.dart';
 import 'artworks_group_widget.dart';
-import '../pages/artwork_page/artwork_page.dart';
+import '../pages/artwork_detail_page.dart';
 import '../models/artwork.dart';
 import '../models/artworks_group.dart';
 import '../models/enums.dart';
@@ -45,10 +45,11 @@ class ArtworksList extends StatelessWidget {
     return ListView.builder(
         itemCount: artworkGroups.length,
         itemBuilder: (BuildContext context, int index) => ArtworksGroupWidget(
-            artworkGroup: artworkGroups[index],
-            onItemTapped: _navToArtworkPage,
-            showDate: showDate,
-            showArtistName: showArtistName));
+              artworkGroup: artworkGroups[index],
+              onItemTapped: _navToArtworkPage,
+              showDate: showDate,
+              showArtistName: showArtistName,
+            ));
   }
 
   Widget _buildArtworkPreviewList(
@@ -63,6 +64,7 @@ class ArtworksList extends StatelessWidget {
   }
 
   _navToArtworkPage(Artwork artwork, BuildContext context) {
-    Navigator.of(context).pushNamed(ArtworkPage.routeName, arguments: artwork);
+    Navigator.of(context)
+        .pushNamed(ArtworkDetailPage.routeName, arguments: artwork.id);
   }
 }
