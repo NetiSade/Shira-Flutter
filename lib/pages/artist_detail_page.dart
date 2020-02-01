@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../widgets/main_drawer.dart';
 import '../widgets/artworks_list.dart';
-import '../providers/artworks_provider.dart';
+
 import '../providers/artists_provider.dart';
 
 //TODO: Get artworks by artist id and not artist name!

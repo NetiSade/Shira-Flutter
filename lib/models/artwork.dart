@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Artwork {
   final String id;
   final String title;
@@ -24,4 +26,11 @@ class Artwork {
         strippedBodyText = data['strippedBodyText'] ?? '',
         strippedTitle = data['strippedTitle'] ?? '',
         publisheDate = data['publisheDate'].toDate();
+
+  String getFirstBodyLines() {
+    List<String> lines = new LineSplitter().convert(bodyText);
+    return lines.length >= 3
+        ? lines[0] + lines[1] + lines[2] + '...'
+        : lines[0] + '...';
+  }
 }

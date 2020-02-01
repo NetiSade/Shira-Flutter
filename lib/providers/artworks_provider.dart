@@ -12,6 +12,7 @@ class ArtworksProvider with ChangeNotifier {
   List<Artwork> _artworks = List<Artwork>();
   ArtworksDisplayModel _displayModel = ArtworksDisplayModel();
   List<ArtworksGroup> _artworkGroups = List<ArtworksGroup>();
+  Artwork _todayArtwork;
   DbService _dbService;
 
   ArtworksProvider() {
@@ -31,6 +32,18 @@ class ArtworksProvider with ChangeNotifier {
     return [..._artworkGroups];
   }
 
+  Artwork get todayArtwork {
+    return _todayArtwork;
+  }
+
+  getTheArtworkOfToday(Function onData) {
+    _dbService.streamArtworkOfToday().listen((artworks) {
+      artworks != null || artworks.length == 0
+          ? onData(null)
+          : onData(artworks[0]);
+    }).onError((err) => print(err));
+  }
+
   ArtworksGroup getArtistArtworks(String artistName) {
     var artworks = _artworks.where((a) => a.artistName == artistName).toList();
     return ArtworksGroup(
@@ -47,7 +60,13 @@ class ArtworksProvider with ChangeNotifier {
       _artworks = artworks;
       sortArtworks();
       notifyListeners();
-    });
+    }).onError((err) => print(err));
+
+    _dbService.streamArtworkOfToday().listen((artworks) {
+      _todayArtwork =
+          artworks != null && artworks.length > 0 ? artworks[0] : null;
+      notifyListeners();
+    }).onError((err) => print(err));
   }
 
   void setDisplayModel(ArtworksDisplayModel displayModel) {

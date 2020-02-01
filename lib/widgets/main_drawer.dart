@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../pages/artists_page.dart';
 import '../pages/artworks_page.dart';
+import '../providers/artworks_provider.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({
@@ -9,6 +11,8 @@ class MainDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var todayArtwork = Provider.of<ArtworksProvider>(context).todayArtwork;
+
     return Drawer(
         child: Container(
       color: Theme.of(context).primaryColor,
@@ -22,8 +26,8 @@ class MainDrawer extends StatelessWidget {
                   'השיר היומי',
                   style: TextStyle(color: Colors.white),
                 ),
-                Text('כותרת'),
-                Text('משורר')
+                if (todayArtwork != null) Text(todayArtwork.title),
+                if (todayArtwork != null) Text(todayArtwork.artistName)
               ],
             ),
           ),

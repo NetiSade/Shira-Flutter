@@ -1,12 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../helpers/local_notifications_helper.dart';
 import '../widgets/sort_modal.dart';
 import '../providers/artworks_provider.dart';
 import '../models/enums.dart';
 import '../widgets/artworks_list.dart';
 import '../widgets/main_drawer.dart';
 import '../widgets/main_bottom_nav_bar.dart';
+import 'artwork_detail_page.dart';
 
 class ArtworksPage extends StatefulWidget {
   static const routeName = '/home-page';
@@ -20,6 +23,16 @@ class _ArtworksPageState extends State<ArtworksPage> {
   final TextEditingController _searchQueryController = TextEditingController();
   ArtworksProvider _artworksProvider;
   ArtworksList _artworksList = ArtworksList();
+
+  @override
+  void initState() {
+    super.initState();
+    //On notification tap:
+    selectNotificationSubject.stream.listen((String payload) async {
+      await Navigator.of(context)
+          .pushNamed(ArtworkDetailPage.routeName, arguments: payload);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
