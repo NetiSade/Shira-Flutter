@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../pages/artists_page.dart';
 import '../pages/artworks_page.dart';
 import '../providers/artworks_provider.dart';
+import '../pages/setting_page.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({
@@ -41,7 +42,9 @@ class MainDrawer extends StatelessWidget {
           buildListTile(context, 'האזור האישי', () {}),
           buildListTile(context, 'הפיצו שירה', () {}),
           buildListTile(context, 'אודות', () {}),
-          buildListTile(context, 'הגדרות', () {}),
+          buildListTile(context, 'הגדרות', () {
+            Navigator.of(context).pushNamed(SettingPage.routeName);
+          }),
         ],
       ),
     ));

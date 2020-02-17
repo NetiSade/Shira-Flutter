@@ -27,6 +27,7 @@ class _ArtworksPageState extends State<ArtworksPage> {
   @override
   void initState() {
     super.initState();
+
     //On notification tap:
     selectNotificationSubject.stream.listen((String payload) async {
       await Navigator.of(context)

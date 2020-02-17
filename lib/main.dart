@@ -13,50 +13,14 @@ import 'pages/artwork_detail_page.dart';
 import 'pages/artworks_page.dart';
 import 'pages/artists_page.dart';
 import 'pages/artist_detail_page.dart';
+import 'pages/setting_page.dart';
 
 Future<void> main() async {
   setupLocator();
 
-  WidgetsFlutterBinding.ensureInitialized();
+  initWorkmanager();
 
-  Workmanager.initialize(callbackDispatcher, isInDebugMode: true);
-
-  // Workmanager.registerPeriodicTask(
-  //   "1",
-  //   "dailyNotificationTask",
-  //   frequency: Duration(minutes: 15),
-  //   //initialDelay: Duration(seconds: 10),
-  //   constraints: Constraints(networkType: NetworkType.connected),
-  //   backoffPolicy: BackoffPolicy.linear,
-  //   backoffPolicyDelay: Duration(hours: 1),
-  // );
-
-  // One off task registration
-  Workmanager.registerOneOffTask(
-    "1",
-    "dailyNotificationTask",
-    initialDelay: Duration(seconds: 10),
-    constraints: Constraints(networkType: NetworkType.connected),
-    backoffPolicy: BackoffPolicy.linear,
-    backoffPolicyDelay: Duration(hours: 1),
-  );
-
-  var initializationSettingsAndroid = AndroidInitializationSettings('app_icon');
-  var initializationSettingsIOS = IOSInitializationSettings(
-      onDidReceiveLocalNotification:
-          (int id, String title, String body, String payload) async {
-    didReceiveLocalNotificationSubject.add(ReceivedNotification(
-        id: id, title: title, body: body, payload: payload));
-  });
-  var initializationSettings = InitializationSettings(
-      initializationSettingsAndroid, initializationSettingsIOS);
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-      onSelectNotification: (String payload) async {
-    if (payload != null) {
-      debugPrint('notification payload: ' + payload);
-    }
-    selectNotificationSubject.add(payload);
-  });
+  await initLocalNotifications();
 
   runApp(MyApp());
 }
@@ -84,6 +48,7 @@ class MyApp extends StatelessWidget {
           ArtistsPage.routeName: (ctx) => ArtistsPage(),
           ArtworksPage.routeName: (ctx) => ArtworksPage(),
           ArtistDetailPage.routeName: (ctx) => ArtistDetailPage(),
+          SettingPage.routeName: (ctx) => SettingPage()
         },
       ),
       providers: [
@@ -96,6 +61,43 @@ class MyApp extends StatelessWidget {
       ],
     );
   }
+}
+
+initWorkmanager() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  Workmanager.cancelAll();
+
+  Workmanager.initialize(callbackDispatcher, isInDebugMode: true);
+
+  Workmanager.registerPeriodicTask(
+    "1",
+    "dailyNotificationTask",
+    frequency: Duration(days: 1),
+    constraints: Constraints(networkType: NetworkType.connected),
+    //initialDelay: ,
+    backoffPolicy: BackoffPolicy.linear,
+    backoffPolicyDelay: Duration(hours: 1),
+  );
+}
+
+initLocalNotifications() async {
+  var initializationSettingsAndroid = AndroidInitializationSettings('app_icon');
+  var initializationSettingsIOS = IOSInitializationSettings(
+      onDidReceiveLocalNotification:
+          (int id, String title, String body, String payload) async {
+    didReceiveLocalNotificationSubject.add(ReceivedNotification(
+        id: id, title: title, body: body, payload: payload));
+  });
+  var initializationSettings = InitializationSettings(
+      initializationSettingsAndroid, initializationSettingsIOS);
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+      onSelectNotification: (String payload) async {
+    if (payload != null) {
+      debugPrint('notification payload: ' + payload);
+    }
+    selectNotificationSubject.add(payload);
+  });
 }
 
 void callbackDispatcher() {

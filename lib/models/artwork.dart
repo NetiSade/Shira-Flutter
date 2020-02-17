@@ -30,7 +30,7 @@ class Artwork {
   String getFirstBodyLines() {
     List<String> lines = new LineSplitter().convert(bodyText);
     return lines.length >= 3
-        ? lines[0] + lines[1] + lines[2] + '...'
-        : lines[0] + '...';
+        ? lines[0] + '\n' + lines[1] + '\n' + lines[2] + '\n' + '...'
+        : lines[0] + '\n' + '...';
   }
 }

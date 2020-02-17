@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
+import '../services/user_data_service.dart';
 import '../models/enums.dart';
 import '../models/artworks_display_model.dart';
 import '../models/artworks_group.dart';
@@ -14,9 +15,11 @@ class ArtworksProvider with ChangeNotifier {
   List<ArtworksGroup> _artworkGroups = List<ArtworksGroup>();
   Artwork _todayArtwork;
   DbService _dbService;
+  UserDataService _userDataService;
 
   ArtworksProvider() {
     _dbService = serviceLocator.get<DbService>();
+    _userDataService = serviceLocator.get<UserDataService>();
     startListening();
   }
 
@@ -236,6 +239,7 @@ class ArtworksProvider with ChangeNotifier {
   void toggleFavorite(String artworkId) {
     var artwork = _artworks.firstWhere((a) => a.id == artworkId);
     artwork.isFavorite = !artwork.isFavorite;
+    _userDataService.updateFavoriteArtwork(artworkId, artwork.isFavorite);
     notifyListeners();
   }
 

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
+import '../services/user_data_service.dart';
+import '../locator.dart';
 import '../providers/artworks_provider.dart';
 import '../widgets/main_drawer.dart';
 import '../widgets/artwork_bottom_nav_bar.dart';
@@ -39,6 +41,7 @@ class _ArtworkDetailPageState extends State<ArtworkDetailPage> {
     final artworkId = ModalRoute.of(context).settings.arguments as String;
     final artworksProvider = Provider.of<ArtworksProvider>(context);
     final artwork = artworksProvider.getArtwork(artworkId);
+    serviceLocator.get<UserDataService>().updateArtworkViewed(artworkId);
 
     return Scaffold(
       drawer: MainDrawer(),
